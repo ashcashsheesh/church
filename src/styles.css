@@ -1,0 +1,497 @@
+:root {
+  color-scheme: dark;
+  --bg: #000000;
+  --ink: #ffffff;
+  --muted: #a3a3a3;
+  --faint: #737373;
+  --line: rgba(255, 255, 255, 0.16);
+  --gold: #ffffff;
+  --gold-ink: #000000;
+  --panel: rgba(255, 255, 255, 0.06);
+  --danger: #d4d4d4;
+  --shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  font-family: Outfit, "Avenir Next", "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+button, input, textarea { font: inherit; color: inherit; }
+
+button { cursor: pointer; }
+
+button:disabled { opacity: 0.38; cursor: default; }
+
+.shell {
+  width: min(920px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.start-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 48px 0 64px;
+}
+
+.start, .result {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.result { padding: 28px 0 72px; }
+
+.eyebrow, .brand {
+  margin: 0;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-family: Fraunces, "Iowan Old Style", Palatino, Georgia, serif;
+  font-size: clamp(40px, 6vw, 64px);
+  font-weight: 520;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+
+.lede, .footnote, .status {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.footnote { max-width: 62ch; }
+
+.start-box {
+  width: 100%;
+  min-height: 280px;
+  margin-top: 8px;
+  padding: 22px 22px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 22px;
+  background: #111111;
+  box-shadow: none;
+  font-size: 18px;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.start-box::placeholder { color: var(--faint); }
+
+.section-input:focus, .line-input:focus, button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.start-box:focus,
+.start-box:focus-visible {
+  outline: none;
+}
+
+.line-input:focus { outline: none; }
+
+.actions-row, .start-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+
+.primary, .ghost, .text-button {
+  border-radius: 999px;
+  min-height: 44px;
+}
+
+.primary {
+  border: 0;
+  background: var(--gold);
+  color: var(--gold-ink);
+  padding: 0 22px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.start-actions .primary { min-width: 180px; }
+
+.primary:hover:not(:disabled) { background: #e5e5e5; }
+
+.ghost, .text-button {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  padding: 0 16px;
+  font-weight: 500;
+}
+
+.ghost:hover:not(:disabled), .text-button:hover:not(:disabled) {
+  background: var(--panel);
+}
+
+.text-button.danger { color: var(--danger); }
+
+.topbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 16px;
+  align-items: end;
+}
+
+.brand-row {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.song-title {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0 0 4px;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  font-family: Fraunces, "Iowan Old Style", Palatino, Georgia, serif;
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 520;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.song-title::placeholder { color: var(--faint); }
+
+.song-title:focus {
+  outline: none;
+  border-bottom-color: var(--gold);
+}
+
+.stage {
+  --font-ratio: 0.08;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 22px;
+  overflow: hidden;
+  container-type: size;
+  background: #0a0a0a;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.22),
+    var(--shadow);
+}
+
+.stage-empty, .stage-lyric {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8% 9%;
+  color: #ffffff;
+}
+
+.stage-kicker {
+  position: absolute;
+  top: 8%;
+  margin: 0;
+  color: var(--gold);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.stage-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.16em;
+  margin: 0;
+  max-width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: calc(100cqh * var(--font-ratio));
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.stage-lines span { display: block; }
+
+.stage-hold {
+  margin: 0;
+  color: var(--faint);
+  font-family: Fraunces, Georgia, serif;
+  font-size: 28px;
+  font-weight: 520;
+}
+
+.stage-count {
+  position: absolute;
+  bottom: 7%;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.stage-lyric { animation: rise 420ms ease; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-lyric { animation: none; }
+}
+
+.toolbar, .options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+}
+
+.toolbar { justify-content: space-between; }
+
+.ghost[aria-pressed="true"] {
+  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--gold);
+}
+
+.count-input {
+  width: 2.4rem;
+  margin: 0;
+  padding: 0 0 2px;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  text-align: center;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.count-input::-webkit-outer-spin-button,
+.count-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.count-input:focus {
+  outline: none;
+  border-bottom-color: var(--gold);
+}
+
+.line-box {
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 4px 0 10px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+  resize: vertical;
+}
+
+.line-box:focus {
+  outline: none;
+  border-bottom-color: var(--gold);
+}
+
+.cluster {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.count, .percent {
+  min-width: 4.6rem;
+  text-align: center;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  font-size: 15px;
+}
+
+.icon-button {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 18px;
+}
+
+.icon-button:hover:not(:disabled) { background: var(--panel); }
+
+.size-label {
+  color: var(--faint);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.filmstrip {
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 2px 2px 12px;
+  scroll-padding-inline: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+}
+
+.filmstrip::-webkit-scrollbar { height: 6px; }
+
+.filmstrip::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 99px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: max-content;
+}
+
+.group-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.group-name::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 99px;
+  background: #a3a3a3;
+}
+
+.cards { display: flex; gap: 8px; }
+
+.card {
+  width: 150px;
+  min-height: 78px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  padding: 10px 12px;
+  text-align: left;
+  white-space: pre-line;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.card[aria-pressed="true"] {
+  border-color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.card-index {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--faint);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.card-blank { color: var(--faint); font-style: italic; }
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 6px;
+}
+
+.section-input, .line-input {
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.section-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: min(240px, 100%);
+  color: var(--faint);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.section-input {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.line-input {
+  padding: 4px 0 10px;
+  border-bottom: 1px solid var(--line);
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.line-input::placeholder { color: var(--faint); }
+
+.error {
+  margin: 0;
+  color: var(--danger);
+  font-size: 15px;
+}
+
+@media (max-width: 640px) {
+  .shell { width: min(920px, calc(100% - 28px)); }
+  .start-shell { padding-top: 32px; align-items: flex-start; }
+  .start-box { min-height: 220px; }
+  .song-title, .topbar .primary { grid-column: 1 / -1; }
+  .line-input { font-size: 22px; }
+}
